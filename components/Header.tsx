@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useState } from "react";
 import BrandLogo from "./BrandLogo";
-import TechnicalManualModal from "./TechnicalManualModal";
 
 export type HeaderNavItem = {
   label: string;
@@ -30,7 +29,6 @@ export default function Header({
   className = "",
 }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [manualOpen, setManualOpen] = useState(false);
 
   return (
     <header className={`fixed inset-x-0 top-0 z-40 border-b border-transparent bg-gradient-to-r from-white/60 via-white/40 to-slate-50/40 backdrop-blur-md ${className}`}>
@@ -66,12 +64,12 @@ export default function Header({
               🔍
             </Link>
 
-            <button
-              onClick={() => setManualOpen(true)}
+            <Link
+              href="/technical-manual"
               className="ml-2 inline-flex items-center rounded-lg bg-gradient-to-r from-sky-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-lg transition-transform hover:scale-105"
             >
               Technical Solution Manual
-            </button>
+            </Link>
           </nav>
         </div>
 
@@ -113,15 +111,13 @@ export default function Header({
                 </Link>
               );
             })}
-            <button
-              onClick={() => {
-                setMobileOpen(false);
-                setManualOpen(true);
-              }}
+            <Link
+              href="/technical-manual"
+              onClick={() => setMobileOpen(false)}
               className="block rounded-xl bg-gradient-to-r from-sky-600 to-indigo-600 px-3 py-2 text-sm font-medium text-white"
             >
               Technical Solution Manual
-            </button>
+            </Link>
           </nav>
         ) : null}
       </div>
