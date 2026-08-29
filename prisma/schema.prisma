@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         String   @default("admin")
+  createdAt    DateTime @default(now())
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  articles    Article[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Article {
+  id             String    @id @default(cuid())
+  title          String
+  slug           String    @unique
+  excerpt        String?
+  content        String
+  status         String    @default("draft")
+  difficulty     String    @default("Intermediate")
+  readTime       String?
+  featuredImage  String?
+  seoTitle       String?
+  seoDescription String?
+  publishedAt    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  categoryId     String?
+  category       Category? @relation(fields: [categoryId], references: [id])
+}
+
+model Resource {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  category    String
+  kind        String   @default("PDF")
+  price       String   @default("Free")
+  status      String   @default("published")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Roadmap {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  steps       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model MediaAsset {
+  id        String   @id @default(cuid())
+  name      String
+  url       String
+  type      String
+  createdAt DateTime @default(now())
+}
+
+model GenAiApp {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  url         String
+  icon        String?
+  status      String   @default("published")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

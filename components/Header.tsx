@@ -21,6 +21,7 @@ export default function Header({
     { label: "Roadmaps", href: "/roadmap" },
     { label: "Categories", href: "/categories" },
     { label: "Resources", href: "/resources" },
+    { label: "Admin", href: "/admin/login" },
     { label: "About", href: "/about" },
   ],
   logo = "learnSAPwithSayan.com",
