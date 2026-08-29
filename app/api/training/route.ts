@@ -44,14 +44,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: true });
     }
 
-    // Fallback: append to a local log file
-    const dataDir = path.resolve(process.cwd(), "data");
-    if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir);
-    const logFile = path.join(dataDir, "training-submissions.log");
-    const entry = { date: new Date().toISOString(), name, email, phone, training, message };
-    fs.appendFileSync(logFile, JSON.stringify(entry) + "\n");
+    // Fallback: Log to console instead of file system (Vercel is read-only)
+    console.log("Training Submission (Fallback):", JSON.stringify({ date: new Date().toISOString(), name, email, phone, training, message }));
 
-    return NextResponse.json({ ok: true, note: "saved_locally" });
+    return NextResponse.json({ ok: true, note: "logged_to_console" });
   } catch (err: any) {
     return NextResponse.json({ error: err.message || String(err) }, { status: 500 });
   }
