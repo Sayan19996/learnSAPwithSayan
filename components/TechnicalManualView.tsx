@@ -1,10 +1,14 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function TechnicalManualView() {
-  const ref1 = useRef<HTMLIFrameElement | null>(null);
-  const ref2 = useRef<HTMLIFrameElement | null>(null);
+  const ref1 = useRef<HTMLObjectElement | null>(null);
+  const ref2 = useRef<HTMLObjectElement | null>(null);
+  const container1 = useRef<HTMLDivElement | null>(null);
+  const container2 = useRef<HTMLDivElement | null>(null);
+  const [full1, setFull1] = useState(false);
+  const [full2, setFull2] = useState(false);
 
   useEffect(() => {
     const block = (e: KeyboardEvent) => {
@@ -18,12 +22,20 @@ export default function TechnicalManualView() {
       e.preventDefault();
     };
 
+    function onFsChange() {
+      const el = document.fullscreenElement;
+      setFull1(!!el && container1.current && (el === container1.current || container1.current.contains(el)));
+      setFull2(!!el && container2.current && (el === container2.current || container2.current.contains(el)));
+    }
+
     document.addEventListener("keydown", block, true);
     document.addEventListener("contextmenu", prevent, true);
+    document.addEventListener("fullscreenchange", onFsChange);
 
     return () => {
       document.removeEventListener("keydown", block, true);
       document.removeEventListener("contextmenu", prevent, true);
+      document.removeEventListener("fullscreenchange", onFsChange);
     };
   }, []);
 
@@ -37,11 +49,29 @@ export default function TechnicalManualView() {
     }
   }
 
+  async function enterFull(container: HTMLDivElement | null) {
+    if (!container) return;
+    try {
+      if ((container as any).requestFullscreen) await (container as any).requestFullscreen();
+    } catch (err) {
+      // ignore
+    }
+  }
+
   return (
     <div className="grid gap-6 md:grid-cols-2">
-      <div className="relative h-[72vh] overflow-hidden rounded border">
+      <div ref={container1} className="relative h-[72vh] overflow-hidden rounded border">
+        <div className="absolute right-2 top-2 z-30 flex gap-2">
+          <button
+            onClick={() => enterFull(container1.current)}
+            className="rounded bg-slate-800/80 px-3 py-1 text-sm text-white"
+          >
+            Full screen
+          </button>
+        </div>
+
         <object
-          ref={ref1 as any}
+          ref={ref1}
           data="/manual-1.pdf#toolbar=0&navpanes=0&view=FitH"
           type="application/pdf"
           className="h-full w-full"
@@ -54,15 +84,24 @@ export default function TechnicalManualView() {
           onContextMenu={(e) => e.preventDefault()}
           onMouseDown={(e) => e.preventDefault()}
           onDoubleClick={(e) => e.preventDefault()}
-          onWheel={(e) => forwardWheel(e, ref1.current as any)}
+          onWheel={(e) => forwardWheel(e, ref1.current)}
           style={{ touchAction: "none" }}
-          className="absolute inset-0 z-10 bg-transparent"
+          className={`absolute inset-0 z-10 bg-transparent ${full1 ? "pointer-events-none" : ""}`}
         />
       </div>
 
-      <div className="relative h-[72vh] overflow-hidden rounded border">
+      <div ref={container2} className="relative h-[72vh] overflow-hidden rounded border">
+        <div className="absolute right-2 top-2 z-30 flex gap-2">
+          <button
+            onClick={() => enterFull(container2.current)}
+            className="rounded bg-slate-800/80 px-3 py-1 text-sm text-white"
+          >
+            Full screen
+          </button>
+        </div>
+
         <object
-          ref={ref2 as any}
+          ref={ref2}
           data="/manual-2.pdf#toolbar=0&navpanes=0&view=FitH"
           type="application/pdf"
           className="h-full w-full"
@@ -75,9 +114,9 @@ export default function TechnicalManualView() {
           onContextMenu={(e) => e.preventDefault()}
           onMouseDown={(e) => e.preventDefault()}
           onDoubleClick={(e) => e.preventDefault()}
-          onWheel={(e) => forwardWheel(e, ref2.current as any)}
+          onWheel={(e) => forwardWheel(e, ref2.current)}
           style={{ touchAction: "none" }}
-          className="absolute inset-0 z-10 bg-transparent"
+          className={`absolute inset-0 z-10 bg-transparent ${full2 ? "pointer-events-none" : ""}`}
         />
       </div>
     </div>
