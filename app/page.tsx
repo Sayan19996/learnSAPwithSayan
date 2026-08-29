@@ -3,6 +3,8 @@ import CategoryCard from "@/components/CategoryCard";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import HeroPremiumWrapper from "@/components/HeroPremiumWrapper";
+import GenAiCard from "@/components/GenAiCard";
+import { getPrisma } from "@/lib/prisma";
 import { getAllArticles } from "@/lib/content";
 import Link from "next/link";
 
@@ -26,7 +28,7 @@ const roadmapSteps = [
   "SAP Architect",
 ];
 
-export default function Home() {
+export default async function Home() {
   const latestTutorials = getAllArticles().slice(0, 3).map((article) => ({
     title: article.title,
     description: article.description,
@@ -37,6 +39,9 @@ export default function Home() {
   }));
 
   const featuredArticle = getAllArticles()[0];
+
+  const prisma = getPrisma();
+  const genai = await prisma.genAiApp.findMany({ where: { status: "published" }, orderBy: { createdAt: "desc" } });
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
@@ -94,11 +99,20 @@ export default function Home() {
         </section>
 
         <section className="py-12">
-          <ArticleFeed
-            eyebrow="Latest tutorials"
-            title="Latest tutorials"
-            articles={latestTutorials}
-          />
+          <ArticleFeed eyebrow="Latest tutorials" title="Latest tutorials" articles={latestTutorials} />
+        </section>
+
+        <section className="py-12">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold">Generative AI Apps</h2>
+            <Link href="/genai" className="text-sm text-sky-600 underline">See all</Link>
+          </div>
+
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {genai.slice(0, 3).map((app: any) => (
+              <GenAiCard key={app.id} app={app} />
+            ))}
+          </div>
         </section>
 
         <section className="py-12">
