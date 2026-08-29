@@ -38,15 +38,26 @@ export default function Header({
           </Link>
 
           <nav aria-label="Main navigation" className="flex items-center gap-7">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-sm font-medium text-slate-700 transition-all hover:text-slate-900 hover:scale-105"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              const isGen = item.href === "/genai" || /genai/i.test(item.label);
+              return isGen ? (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="inline-flex items-center rounded-full bg-gradient-to-r from-rose-500 to-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-lg transition-transform hover:scale-105"
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="text-sm font-medium text-slate-700 transition-all hover:text-slate-900 hover:scale-105"
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
 
             <Link href="/search" aria-label="Search articles" className="relative inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-slate-100 to-white text-lg text-slate-700 shadow-md">
               🔍
@@ -83,16 +94,19 @@ export default function Header({
             aria-label="Mobile navigation"
             className="mt-4 space-y-2 rounded-2xl border border-slate-200 bg-slate-50 p-3 md:hidden"
           >
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setMobileOpen(false)}
-                className="block rounded-xl px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-white hover:text-slate-900"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              const isGen = item.href === "/genai" || /genai/i.test(item.label);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={`block rounded-xl px-3 py-2 text-sm font-medium transition-colors ${isGen ? "bg-gradient-to-r from-rose-500 to-indigo-600 text-white" : "text-slate-700 hover:bg-white hover:text-slate-900"}`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
         ) : null}
       </div>
