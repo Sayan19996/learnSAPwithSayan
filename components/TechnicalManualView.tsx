@@ -24,8 +24,8 @@ export default function TechnicalManualView() {
 
     function onFsChange() {
       const el = document.fullscreenElement;
-      setFull1(!!el && container1.current && (el === container1.current || container1.current.contains(el)));
-      setFull2(!!el && container2.current && (el === container2.current || container2.current.contains(el)));
+      setFull1(Boolean(el && container1.current && (el === container1.current || container1.current.contains(el))));
+      setFull2(Boolean(el && container2.current && (el === container2.current || container2.current.contains(el))));
     }
 
     document.addEventListener("keydown", block, true);
