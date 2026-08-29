@@ -1,20 +1,32 @@
-// Lazily require @prisma/client to avoid build-time evaluation issues
-const globalForPrisma = globalThis as any;
+// Prisma has been disabled in this workspace per user request (using MDX content).
+// This file provides a lightweight mock of the parts of Prisma the app expects
+// so the rest of the codebase can run without a real database during deployment.
+
+function makeModelMock() {
+  return {
+    findMany: async () => [],
+    findUnique: async () => null,
+    findFirst: async () => null,
+    create: async (args: any) => ({ id: "mock-id", ...((args && args.data) || {}) }),
+    update: async (args: any) => ({ id: (args && args.where && args.where.id) || "mock-id", ...((args && args.data) || {}) }),
+    delete: async () => ({}),
+    upsert: async (args: any) => ({ id: "mock-id", ...((args && args.create) || {}) }),
+  };
+}
+
+const mockPrisma = {
+  article: makeModelMock(),
+  category: makeModelMock(),
+  resource: makeModelMock(),
+  roadmap: makeModelMock(),
+  mediaAsset: makeModelMock(),
+  genAiApp: makeModelMock(),
+  adminUser: makeModelMock(),
+  // no-op lifecycle methods
+  $connect: async () => {},
+  $disconnect: async () => {},
+};
 
 export function getPrisma() {
-  if (globalForPrisma.prisma) return globalForPrisma.prisma;
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const { PrismaClient } = require("@prisma/client");
-
-  const client = new PrismaClient({
-    log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
-  });
-
-  if (process.env.NODE_ENV !== "production") {
-    globalForPrisma.prisma = client;
-  }
-
-  return client;
+  return mockPrisma as any;
 }
