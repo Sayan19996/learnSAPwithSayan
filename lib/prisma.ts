@@ -20,7 +20,32 @@ const mockPrisma = {
   resource: makeModelMock(),
   roadmap: makeModelMock(),
   mediaAsset: makeModelMock(),
-  genAiApp: makeModelMock(),
+  genAiApp: (() => {
+    const sample = {
+      id: "genai-1",
+      name: "SAP AI Solution Architect",
+      slug: "sap-ai-solution-architect",
+      url: "https://sap-ai-solution-architect.netlify.app/",
+      description: "Collection of generative AI demos and tools for SAP architects.",
+      longDescription: "Project examples and small demos showcasing AI usages in SAP contexts.",
+      icon: null,
+      status: "published",
+      createdAt: new Date().toISOString(),
+    };
+
+    return {
+      findMany: async () => [sample],
+      findUnique: async ({ where }: any) => {
+        if (!where) return null;
+        if (where.slug === sample.slug || where.id === sample.id) return sample;
+        return null;
+      },
+      create: async (args: any) => ({ id: "genai-new", ...((args && args.data) || {}) }),
+      update: async (args: any) => ({ id: (args && args.where && args.where.id) || "genai-1", ...((args && args.data) || {}) }),
+      delete: async () => ({}),
+      upsert: async (args: any) => ({ id: "genai-1", ...((args && args.create) || {}) }),
+    };
+  })(),
   adminUser: makeModelMock(),
   // no-op lifecycle methods
   $connect: async () => {},
