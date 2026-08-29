@@ -78,10 +78,7 @@ export default function HeroPremium() {
                   </div>
                 </div>
 
-                {/* 3D model on the right of the card */}
-                <div className="absolute right-[-6rem] top-1/2 hidden w-80 -translate-y-1/2 md:block">
-                  <HeroModel />
-                </div>
+                {/* 3D model removed per user request */}
               </div>
             </div>
           </div>
