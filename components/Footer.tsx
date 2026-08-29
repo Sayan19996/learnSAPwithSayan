@@ -47,36 +47,38 @@ export default function Footer({
   className = "",
 }: FooterProps) {
   return (
-    <footer className={`border-t border-slate-200 bg-slate-950 text-slate-300 ${className}`}>
+    <footer className={`mt-24 ${className}`}>
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid gap-10 md:grid-cols-[1.2fr_1fr_1fr_1fr]">
-          <div className="space-y-4">
-            <Link href="/" className="inline-flex items-center" aria-label="Go to homepage">
-              <BrandLogo className="scale-[0.9] origin-left" wordmark={brand} />
-            </Link>
-            <p className="max-w-sm text-sm leading-6 text-slate-400">{description}</p>
+        <div className="rounded-3xl bg-gradient-to-tl from-slate-900/90 via-indigo-900/70 to-slate-800/80 p-8 shadow-2xl">
+          <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+            <div className="space-y-4 text-slate-100">
+              <Link href="/" className="inline-flex items-center" aria-label="Go to homepage">
+                <BrandLogo className="scale-[0.95] origin-left text-white" wordmark={brand} />
+              </Link>
+              <p className="max-w-sm text-sm leading-6 text-slate-300">{description}</p>
+            </div>
+
+            {columns.map((column) => (
+              <div key={column.title}>
+                <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-slate-200">
+                  {column.title}
+                </h3>
+                <ul className="space-y-3 text-sm">
+                  {column.links.map((link) => (
+                    <li key={link.href}>
+                      <Link href={link.href} className="text-slate-300 transition-colors hover:text-white">
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
 
-          {columns.map((column) => (
-            <div key={column.title}>
-              <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-slate-200">
-                {column.title}
-              </h3>
-              <ul className="space-y-3 text-sm">
-                {column.links.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className="text-slate-400 transition-colors hover:text-white">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-10 border-t border-slate-800 pt-6 text-sm text-slate-500">
-          {copyright}
+          <div className="mt-10 border-t border-slate-700 pt-6 text-sm text-slate-400">
+            {copyright}
+          </div>
         </div>
       </div>
     </footer>

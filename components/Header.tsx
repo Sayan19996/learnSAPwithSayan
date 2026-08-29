@@ -30,8 +30,8 @@ export default function Header({
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className={`border-b border-slate-200/80 bg-white/90 backdrop-blur-sm ${className}`}>
-      <div className="mx-auto max-w-6xl px-4 py-3 sm:px-6 lg:px-8">
+    <header className={`fixed inset-x-0 top-0 z-40 border-b border-transparent bg-gradient-to-r from-white/60 via-white/40 to-slate-50/40 backdrop-blur-md ${className}`}>
+      <div className="mx-auto max-w-6xl px-4 py-4 sm:px-6 lg:px-8">
         <div className="hidden items-center justify-between md:flex md:items-center">
           <Link href="/" className="inline-flex items-center" aria-label="Go to homepage">
             <BrandLogo className="" compact={false} wordmark={logo} />
@@ -42,18 +42,18 @@ export default function Header({
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-sm font-medium text-slate-700 transition-colors hover:text-slate-900"
+                className="text-sm font-medium text-slate-700 transition-all hover:text-slate-900 hover:scale-105"
               >
                 {item.label}
               </Link>
             ))}
 
-            <Link
-              href="/search"
-              aria-label="Search articles"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-base text-slate-700 transition-colors hover:border-slate-300 hover:bg-slate-50"
-            >
+            <Link href="/search" aria-label="Search articles" className="relative inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-slate-100 to-white text-lg text-slate-700 shadow-md">
               🔍
+            </Link>
+
+            <Link href="/admin/login" className="ml-2 inline-flex items-center rounded-lg bg-gradient-to-r from-sky-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-lg transition-transform hover:scale-105">
+              Admin
             </Link>
           </nav>
         </div>
@@ -73,11 +73,7 @@ export default function Header({
             <BrandLogo compact wordmark={logo} />
           </Link>
 
-          <Link
-            href="/search"
-            aria-label="Search articles"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-base text-slate-700 shadow-sm transition-colors hover:border-slate-300"
-          >
+          <Link href="/search" aria-label="Search articles" className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/80 text-base text-slate-700 shadow-sm">
             🔍
           </Link>
         </div>
