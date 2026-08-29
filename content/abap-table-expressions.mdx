@@ -1,0 +1,46 @@
+---
+title: "Understanding ABAP Table Expressions"
+description: "Learn how modern ABAP table expressions simplify data access and make code easier to read."
+category: "ABAP"
+author: "Sayan Samanta"
+publishedAt: "2026-08-12"
+readTime: "6 min"
+---
+
+# Understanding ABAP Table Expressions
+
+Modern ABAP gives you cleaner ways to read and change data in internal tables. Table expressions reduce the need for verbose loops and nested conditions while keeping the logic easy to understand.
+
+## Why it matters
+
+When working with internal tables, readability and maintainability matter just as much as performance. Table expressions help you express the intent of your code directly.
+
+## Basic example
+
+```abap
+DATA lt_flights TYPE TABLE OF sflight.
+
+READ TABLE lt_flights WITH KEY carrid = 'AA' connid = '0017' INTO DATA(ls_flight).
+
+IF sy-subrc = 0.
+  WRITE: ls_flight-price.
+ENDIF.
+```
+
+## Modern alternative
+
+```abap
+DATA(ls_flight) = lt_flights[ carrid = 'AA' connid = '0017' ].
+
+IF ls_flight IS NOT INITIAL.
+  WRITE: ls_flight-price.
+ENDIF.
+```
+
+## Best practices
+
+- Keep table expressions readable and limited to targeted data access.
+- Use them when you already know the keys you want to match.
+- Prefer explicit conditions for complex filtering logic.
+
+This pattern becomes especially powerful in business logic where clarity matters for future maintenance.

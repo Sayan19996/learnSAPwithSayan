@@ -1,0 +1,48 @@
+---
+title: "Understanding SAP BTP Destinations"
+description: "Learn how SAP BTP destinations connect cloud applications to backend services securely and consistently."
+category: "BTP"
+author: "Sayan Samanta"
+publishedAt: "2026-08-24"
+readTime: "5 min"
+---
+
+# Understanding SAP BTP Destinations
+
+Destinations are one of the most important concepts in SAP BTP. They provide a secure and reusable way for cloud applications to know how to reach specific backend systems.
+
+## What is a destination?
+
+A destination defines the connection details for a remote service such as an SAP backend, an external API, or a system endpoint. It becomes especially important when your app needs to reach services without hardcoding credentials or URLs.
+
+## Why destinations matter
+
+They help you:
+
+- keep configuration out of application code
+- centralize connection details
+- improve security and maintainability
+- simplify deployment across environments
+
+## Example destination structure
+
+```text
+Name: SAP_ERP
+Type: HTTP
+URL: https://example.erp-system.com
+Authentication: BasicAuthentication
+```
+
+## Typical use cases
+
+- Calling SAP S/4HANA APIs from a BTP application
+- Connecting a CAP app to a backend service
+- Setting up integration between cloud and enterprise systems
+
+## Best practices
+
+- Avoid hardcoding URLs and credentials in app logic.
+- Use environment-specific destinations for dev, test, and production.
+- Review trust and authentication settings carefully before exposing business integrations.
+
+Destinations give you a clean way to build secure, portable enterprise integrations in the SAP BTP ecosystem.

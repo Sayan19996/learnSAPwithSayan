@@ -1,0 +1,46 @@
+---
+title: "CDS Associations in SAP"
+description: "A practical guide to understanding associations in Core Data Services and how they shape domain models."
+category: "CDS"
+author: "Sayan Samanta"
+publishedAt: "2026-08-20"
+readTime: "7 min"
+---
+
+# CDS Associations in SAP
+
+Associations are one of the most important tools in Core Data Services because they define relationships between business entities in a clear and reusable way.
+
+## What is an association?
+
+An association connects one entity to another so that the data model reflects the domain relationships between business objects. Instead of duplicating fields or manually joining data, the association keeps the model expressive and maintainable.
+
+## Example
+
+```abap
+@AbapCatalog.sqlViewName: 'ZV_TRAVEL'
+define view ZI_Travel
+  as select from ztravel as Travel
+  association [0..1] to ZI_Customer as _Customer on $projection.CustomerId = _Customer.CustomerId
+{
+  key Travel.travel_id as TravelId,
+      Travel.customer_id as CustomerId,
+      _Customer
+}
+```
+
+## Why use associations?
+
+Associations help you:
+
+- model real domain relationships directly
+- navigate related entities from a CDS view
+- make data access clearer and more reusable
+
+## Best practices
+
+- Keep the association name meaningful and aligned to the domain.
+- Use association cardinalities carefully to reflect actual relationships.
+- Combine associations with value helps and annotations when you need more user-friendly behavior.
+
+When used well, CDS associations make your data model easier to understand and easier to extend over time.
