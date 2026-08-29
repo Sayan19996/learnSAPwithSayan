@@ -19,11 +19,11 @@ export default function Header({
   navItems = [
     { label: "Tutorials", href: "/tutorials" },
     { label: "Roadmaps", href: "/roadmap" },
-    { label: "Gen AI", href: "/genai" },
     { label: "Categories", href: "/categories" },
     { label: "Resources", href: "/resources" },
     { label: "Admin", href: "/admin/login" },
     { label: "About", href: "/about" },
+    { label: "Gen AI App", href: "/genai" },
   ],
   logo = "learnSAPwithSayan.com",
   className = "",
