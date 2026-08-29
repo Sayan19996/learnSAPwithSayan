@@ -57,6 +57,9 @@ export default async function Home() {
           <div className="text-center mb-12">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-600">Choose your path</p>
             <h2 className="mt-3 text-4xl font-extrabold tracking-tight text-slate-900">What do you want to learn?</h2>
+            <p className="mt-4 text-slate-500 max-w-2xl mx-auto text-lg">
+              Expert-led training in <span className="text-sky-600 font-semibold">ABAP, RAP, CAP, and BTP</span> to solve your most complex technical issues.
+            </p>
             <div className="mt-4 h-1 w-20 bg-sky-500 mx-auto rounded-full" />
           </div>
 
