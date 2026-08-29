@@ -76,7 +76,7 @@ export default function Header({
               onClick={() => setTrainingOpen(true)}
               className="ml-2 inline-flex items-center rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 px-3 py-2 text-sm font-semibold text-white shadow-lg transition-transform hover:scale-105"
             >
-              Training: Apply
+              Training & Consultation
             </button>
 
             <Link
@@ -133,7 +133,7 @@ export default function Header({
               }}
               className="block rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-3 py-2 text-sm font-medium text-white"
             >
-              Training: Apply
+              Training & Consultation
             </button>
             <Link
               href="/technical-manual"
