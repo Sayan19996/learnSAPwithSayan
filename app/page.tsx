@@ -44,96 +44,113 @@ export default async function Home() {
   const genai = await prisma.genAiApp.findMany({ where: { status: "published" }, orderBy: { createdAt: "desc" } });
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div className="min-h-screen bg-white text-slate-900">
       <Header />
 
       <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Premium hero (client-only) */}
-        <section>
+        <section className="mb-12">
           <HeroPremiumWrapper />
         </section>
 
-        <section className="py-12">
-          <div className="text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-sky-700">Choose your path</p>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-900">What do you want to learn?</h2>
+        <section className="py-20">
+          <div className="text-center mb-12">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-600">Choose your path</p>
+            <h2 className="mt-3 text-4xl font-extrabold tracking-tight text-slate-900">What do you want to learn?</h2>
+            <div className="mt-4 h-1 w-20 bg-sky-500 mx-auto rounded-full" />
           </div>
 
-          <div className="mt-8 grid gap-5 md:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-3">
             {learningPaths.map((item) => (
-              <CategoryCard
-                key={item.title}
-                title={item.title}
-                description={`Explore practical ${item.title} learning paths and hands-on examples.`}
-                articleCount={4}
-                href={item.href}
-                icon={item.icon}
-                accent={item.accent}
-              />
+              <div key={item.title} className="transition-transform duration-300 hover:scale-[1.02]">
+                <CategoryCard
+                  title={item.title}
+                  description={`Explore practical ${item.title} learning paths and hands-on examples.`}
+                  articleCount={4}
+                  href={item.href}
+                  icon={item.icon}
+                  accent={item.accent}
+                />
+              </div>
             ))}
           </div>
         </section>
 
-        <section className="py-12">
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="py-20 bg-slate-50 rounded-[3rem] px-6 sm:px-12">
+          <div className="rounded-3xl border border-white bg-white p-8 shadow-xl shadow-slate-200/50 sm:p-12 transition-all hover:shadow-2xl">
             <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-sky-700">Featured tutorial</p>
-                <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-900">
+              <div className="max-w-2xl">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-600">Featured tutorial</p>
+                <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
                   {featuredArticle?.title ?? "Build a QR-Based PGI Application in SAP"}
                 </h2>
               </div>
 
               <Link
                 href={featuredArticle ? `/tutorials/${featuredArticle.slug}` : "/tutorials/qr-based-pgi-application"}
-                className="inline-flex items-center justify-center rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-slate-700"
+                className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-bold text-white transition-all hover:bg-slate-700 hover:shadow-lg active:scale-95"
               >
                 Read tutorial
               </Link>
             </div>
 
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600">
+            <p className="mt-8 max-w-3xl text-xl leading-relaxed text-slate-600">
               {featuredArticle?.description ?? "This is where your real project experience becomes valuable."}
             </p>
           </div>
         </section>
 
-        <section className="py-12">
+        <section className="py-20">
           <ArticleFeed eyebrow="Latest tutorials" title="Latest tutorials" articles={latestTutorials} />
         </section>
 
-        <section className="py-12">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-sky-700">Generative AI</p>
-              <h2 className="mt-2 text-2xl font-bold">AI apps & demos</h2>
-              <p className="mt-1 text-sm text-slate-500">Curated tools and demos you can open and try.</p>
+        <section className="py-20 relative overflow-hidden">
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-sky-100 rounded-full blur-3xl opacity-50" />
+          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-100 rounded-full blur-3xl opacity-50" />
+          
+          <div className="relative z-10 flex items-center justify-between mb-10">
+            <div className="max-w-xl">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-600">Generative AI</p>
+              <h2 className="mt-2 text-3xl font-extrabold tracking-tight">AI apps & demos</h2>
+              <p className="mt-2 text-slate-500">Curated tools and demos you can open and try instantly.</p>
             </div>
-            <Link href="/genai" className="text-sm text-sky-600 underline">See all</Link>
+            <Link href="/genai" className="hidden sm:block text-sm font-bold text-sky-600 hover:text-sky-700 transition-colors underline underline-offset-4">
+              See all apps →
+            </Link>
           </div>
 
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="relative z-10 mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {genai.slice(0, 3).map((app: any) => (
-              <GenAiCard key={app.id} app={app} />
+              <div key={app.id} className="transition-transform duration-300 hover:scale-[1.02]">
+                <GenAiCard app={app} />
+              </div>
             ))}
+          </div>
+          <div className="mt-8 sm:hidden text-center">
+            <Link href="/genai" className="text-sm font-bold text-sky-600 underline">See all apps</Link>
           </div>
         </section>
 
-        <section className="py-12">
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-            <div className="text-center">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-sky-700">Career roadmap</p>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-900">SAP Developer → SAP Architect</h2>
+        <section className="py-20">
+          <div className="rounded-[3rem] border border-slate-200 bg-white p-8 shadow-sm sm:p-16 text-center transition-all hover:shadow-md">
+            <div className="max-w-2xl mx-auto">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-600">Career roadmap</p>
+              <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">SAP Developer → SAP Architect</h2>
+              <p className="mt-4 text-slate-500">A structured path to mastering the SAP ecosystem.</p>
             </div>
 
-            <div className="mt-10 flex flex-col items-center gap-3">
+            <div className="mt-16 flex flex-col items-center gap-0">
               {roadmapSteps.map((step, index) => (
-                <div key={step} className="flex flex-col items-center">
-                  <div className="rounded-full border border-slate-200 bg-slate-50 px-5 py-2 text-sm font-medium text-slate-700">
+                <div key={step} className="flex flex-col items-center group">
+                  <div className="rounded-full border-2 border-slate-100 bg-white px-6 py-3 text-sm font-bold text-slate-700 transition-all group-hover:border-sky-500 group-hover:text-sky-600 group-hover:shadow-md">
                     {step}
                   </div>
                   {index < roadmapSteps.length - 1 ? (
-                    <span className="my-1 text-lg text-slate-400">↓</span>
+                    <div className="flex flex-col items-center py-2">
+                      <div className="h-8 w-0.5 bg-slate-200 group-hover:bg-sky-300 transition-colors" />
+                      <span className="text-slate-300 group-hover:text-sky-400 transition-colors">↓</span>
+                      <div className="h-8 w-0.5 bg-slate-200 group-hover:bg-sky-300 transition-colors" />
+                    </div>
                   ) : null}
                 </div>
               ))}
@@ -141,22 +158,25 @@ export default async function Home() {
           </div>
         </section>
 
-        <section className="py-12">
-          <div className="rounded-3xl bg-slate-900 p-8 text-white shadow-sm sm:p-10">
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-sky-300">Free resources</p>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-white">FREE SAP ARCHITECT ROADMAP</h2>
+        <section className="py-20">
+          <div className="relative rounded-[3rem] bg-slate-900 p-8 text-white shadow-2xl sm:p-16 overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-sky-500/20 rounded-full blur-3xl" />
+            <div className="relative z-10">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-400">Free resources</p>
+              <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-white sm:text-5xl">FREE SAP ARCHITECT ROADMAP</h2>
 
-            <div className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-              Download the complete SAP Developer → Architect roadmap.
-            </div>
+              <div className="mt-6 max-w-2xl text-xl leading-relaxed text-slate-300">
+                Stop guessing your career path. Download the complete, industry-verified SAP Developer to Architect roadmap.
+              </div>
 
-            <div className="mt-8">
-              <Link
-                href="/resources"
-                className="inline-flex items-center justify-center rounded-full bg-sky-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-sky-400"
-              >
-                Download Free
-              </Link>
+              <div className="mt-10">
+                <Link
+                  href="/resources"
+                  className="inline-flex items-center justify-center rounded-full bg-sky-500 px-8 py-4 text-base font-bold text-white transition-all hover:bg-sky-400 hover:shadow-[0_0_20px_rgba(14,165,233,0.4)] active:scale-95"
+                >
+                  Download Free Now
+                </Link>
+              </div>
             </div>
           </div>
         </section>
