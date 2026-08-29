@@ -3,14 +3,6 @@ import fs from "fs";
 import path from "path";
 
 // Try to load nodemailer dynamically to avoid build-time issues
-let nodemailer: any = null;
-try {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  nodemailer = require("nodemailer");
-} catch (e) {
-  nodemailer = null;
-}
-
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -20,17 +12,26 @@ export async function POST(req: Request) {
 
     const text = `Training application\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nTraining: ${training}\nMessage: ${message || ""}\n`;
 
-    if (nodemailer && process.env.SMTP_HOST && process.env.SMTP_USER) {
-      const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: Number(process.env.SMTP_PORT || 587),
-        secure: !!process.env.SMTP_SECURE, // true for 465, false for other ports
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS,
-        },
-      });
+    // Try to send via SMTP if nodemailer and SMTP config available
+    let transporter: any = null;
+    try {
+      const nodemailer = await import('nodemailer');
+      if (nodemailer && process.env.SMTP_HOST && process.env.SMTP_USER) {
+        transporter = nodemailer.createTransport({
+          host: process.env.SMTP_HOST,
+          port: Number(process.env.SMTP_PORT || 587),
+          secure: !!process.env.SMTP_SECURE,
+          auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS,
+          },
+        });
+      }
+    } catch (e) {
+      transporter = null;
+    }
 
+    if (transporter) {
       await transporter.sendMail({
         from: process.env.SMTP_FROM || process.env.SMTP_USER,
         to,
