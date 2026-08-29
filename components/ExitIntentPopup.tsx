@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import { useHeaderStore } from "@/lib/store"; // Assuming a store exists or we can use a custom event
 
 export default function ExitIntentPopup() {
   useEffect(() => {
