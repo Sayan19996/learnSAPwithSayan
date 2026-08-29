@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BrandLogo from "./BrandLogo";
 import TrainingModal from "./TrainingModal";
 
@@ -31,6 +31,12 @@ export default function Header({
 }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [trainingOpen, setTrainingOpen] = useState(false);
+
+  useEffect(() => {
+    const handleOpenModal = () => setTrainingOpen(true);
+    window.addEventListener("open-training-modal", handleOpenModal);
+    return () => window.removeEventListener("open-training-modal", handleOpenModal);
+  }, []);
 
   return (
     <header className={`fixed inset-x-0 top-0 z-40 border-b border-transparent bg-gradient-to-r from-white/60 via-white/40 to-slate-50/40 backdrop-blur-md ${className}`}>
