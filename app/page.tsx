@@ -2,7 +2,7 @@ import ArticleFeed from "@/components/ArticleFeed";
 import CategoryCard from "@/components/CategoryCard";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import dynamic from "next/dynamic";
+import HeroPremiumWrapper from "@/components/HeroPremiumWrapper";
 import { getAllArticles } from "@/lib/content";
 import Link from "next/link";
 
@@ -43,17 +43,9 @@ export default function Home() {
       <Header />
 
       <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-        {/** dynamically import to avoid server-side rendering errors for client component */}
-        {/* @ts-expect-error */}
-        {typeof window !== "undefined" ? (
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          (dynamic as any)(() => import("@/components/HeroPremium"), { ssr: false })()
-        ) : null}
-        {/* Premium hero */}
+        {/* Premium hero (client-only) */}
         <section>
-          {/* @ts-expect-error server -> client */}
-          {/* eslint-disable-next-line react/jsx-no-undef */}
-          <HeroPremium />
+          <HeroPremiumWrapper />
         </section>
 
         <section className="py-12">

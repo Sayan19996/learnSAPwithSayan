@@ -10,10 +10,9 @@ export default function HeroPremium() {
   const cardRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const el = cardRef.current;
-    if (!el) return;
-
     function onMove(e: MouseEvent) {
+      const el = cardRef.current;
+      if (!el) return;
       const rect = el.getBoundingClientRect();
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
@@ -23,8 +22,13 @@ export default function HeroPremium() {
     }
 
     function onLeave() {
+      const el = cardRef.current;
+      if (!el) return;
       el.style.transform = "rotateX(0deg) rotateY(0deg) translateZ(0)";
     }
+
+    const el = cardRef.current;
+    if (!el) return;
 
     el.addEventListener("mousemove", onMove);
     el.addEventListener("mouseleave", onLeave);
