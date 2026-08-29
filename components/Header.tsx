@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import BrandLogo from "./BrandLogo";
+import TrainingModal from "./TrainingModal";
 
 export type HeaderNavItem = {
   label: string;
@@ -32,7 +33,8 @@ export default function Header({
 
   return (
     <header className={`fixed inset-x-0 top-0 z-40 border-b border-transparent bg-gradient-to-r from-white/60 via-white/40 to-slate-50/40 backdrop-blur-md ${className}`}>
-      <div className="mx-auto max-w-6xl px-4 py-4 sm:px-6 lg:px-8">
+  const [manualOpen, setManualOpen] = useState(false);
+  const [trainingOpen, setTrainingOpen] = useState(false);
         <div className="hidden items-center justify-between md:flex md:items-center">
           <Link href="/" className="inline-flex items-center" aria-label="Go to homepage">
             <BrandLogo className="" compact={false} wordmark={logo} />
@@ -69,12 +71,21 @@ export default function Header({
               className="ml-2 inline-flex items-center rounded-lg bg-gradient-to-r from-sky-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-lg transition-transform hover:scale-105"
             >
               Technical Solution Manual
-            </Link>
-          </nav>
-        </div>
+            <button
+              onClick={() => setTrainingOpen(true)}
+              className="ml-2 inline-flex items-center rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 px-3 py-2 text-sm font-semibold text-white shadow-lg transition-transform hover:scale-105"
+            >
+              Training: Apply
+            </button>
 
-        <div className="flex items-center justify-between md:hidden">
-          <button
+            <Link
+              href="/technical-manual"
+              className="ml-2 inline-flex items-center rounded-lg bg-gradient-to-r from-sky-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-lg transition-transform hover:scale-105"
+            >
+              Technical Solution Manual
+            </Link>
+            
+            {trainingOpen ? <></> : null}
             type="button"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
@@ -91,6 +102,7 @@ export default function Header({
           <Link href="/search" aria-label="Search articles" className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/80 text-base text-slate-700 shadow-sm">
             🔍
           </Link>
+          {trainingOpen ? <TrainingModal open={trainingOpen} onClose={() => setTrainingOpen(false)} /> : null}
         </div>
 
         {mobileOpen ? (
@@ -116,11 +128,20 @@ export default function Header({
               onClick={() => setMobileOpen(false)}
               className="block rounded-xl bg-gradient-to-r from-sky-600 to-indigo-600 px-3 py-2 text-sm font-medium text-white"
             >
+            <button
+              onClick={() => {
+                setMobileOpen(false);
+                setTrainingOpen(true);
+              }}
+              className="block rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-3 py-2 text-sm font-medium text-white"
+            >
+              Training: Apply
+            </button>
+            <Link
+              href="/technical-manual"
+              onClick={() => setMobileOpen(false)}
+              className="block rounded-xl bg-gradient-to-r from-sky-600 to-indigo-600 px-3 py-2 text-sm font-medium text-white"
+            >
               Technical Solution Manual
             </Link>
-          </nav>
-        ) : null}
-      </div>
-    </header>
-  );
 }
