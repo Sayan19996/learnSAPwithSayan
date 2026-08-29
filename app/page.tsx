@@ -2,6 +2,7 @@ import ArticleFeed from "@/components/ArticleFeed";
 import CategoryCard from "@/components/CategoryCard";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import dynamic from "next/dynamic";
 import { getAllArticles } from "@/lib/content";
 import Link from "next/link";
 
@@ -42,49 +43,17 @@ export default function Home() {
       <Header />
 
       <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-        <section className="py-12 sm:py-16">
-          <div className="grid items-center gap-10 lg:grid-cols-[1.2fr_0.8fr]">
-            <div>
-              <h1 className="max-w-xl text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-                Learn SAP.
-                <span className="mt-2 block">Build Real Solutions.</span>
-              </h1>
-
-              <p className="mt-6 max-w-xl text-lg leading-8 text-slate-600">
-                Practical SAP tutorials covering ABAP, RAP, Fiori, BTP, Integration and Architecture.
-              </p>
-
-              <div className="mt-8 flex flex-wrap gap-4">
-                <Link
-                  href="/tutorials"
-                  className="inline-flex items-center justify-center rounded-full bg-sky-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-sky-500"
-                >
-                  Start Learning
-                </Link>
-                <Link
-                  href="/resources"
-                  className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400 hover:bg-slate-50"
-                >
-                  Explore Tutorials
-                </Link>
-              </div>
-            </div>
-
-            <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-              <div className="space-y-4">
-                {[
-                  "ABAP / OO / CDS",
-                  "RAP + Fiori UX",
-                  "BTP + Integration",
-                  "Architecture + Delivery",
-                ].map((item) => (
-                  <div key={item} className="rounded-2xl bg-slate-100 px-4 py-3 text-sm font-medium text-slate-700">
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+        {/** dynamically import to avoid server-side rendering errors for client component */}
+        {/* @ts-expect-error */}
+        {typeof window !== "undefined" ? (
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          (dynamic as any)(() => import("@/components/HeroPremium"), { ssr: false })()
+        ) : null}
+        {/* Premium hero */}
+        <section>
+          {/* @ts-expect-error server -> client */}
+          {/* eslint-disable-next-line react/jsx-no-undef */}
+          <HeroPremium />
         </section>
 
         <section className="py-12">
