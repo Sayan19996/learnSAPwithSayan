@@ -75,10 +75,19 @@ export default function TrainingModal({ open, onClose }: { open: boolean; onClos
             <textarea className="w-full rounded border px-3 py-2" value={message} onChange={(e) => setMessage(e.target.value)} />
           </div>
 
-          <div className="flex items-center justify-between">
-            <button type="submit" disabled={loading} className="rounded bg-sky-600 px-4 py-2 text-white">
-              {loading ? "Sending..." : "Submit"}
-            </button>
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={onClose}
+                className="rounded border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+              >
+                Cancel
+              </button>
+              <button type="submit" disabled={loading} className="rounded bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-700">
+                {loading ? "Sending..." : "Submit"}
+              </button>
+            </div>
             {success ? <div className="text-sm text-slate-600">{success}</div> : null}
           </div>
         </form>

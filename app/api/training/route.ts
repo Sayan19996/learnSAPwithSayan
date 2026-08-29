@@ -15,7 +15,8 @@ export async function POST(req: Request) {
     // Try to send via SMTP if nodemailer and SMTP config available
     let transporter: any = null;
     try {
-      const nodemailer = await import('nodemailer');
+      const nodemailerModule = await import('nodemailer');
+      const nodemailer = nodemailerModule.default || nodemailerModule;
       if (nodemailer && process.env.SMTP_HOST && process.env.SMTP_USER) {
         transporter = nodemailer.createTransport({
           host: process.env.SMTP_HOST,
@@ -28,6 +29,7 @@ export async function POST(req: Request) {
         });
       }
     } catch (e) {
+      console.error("Nodemailer import error:", e);
       transporter = null;
     }
 
