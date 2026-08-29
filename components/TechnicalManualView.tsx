@@ -27,10 +27,11 @@ export default function TechnicalManualView() {
     };
   }, []);
 
-  function forwardWheel(e: React.WheelEvent, iframe: HTMLIFrameElement | null) {
-    if (!iframe || !iframe.contentWindow) return;
+  function forwardWheel(e: React.WheelEvent, el: HTMLObjectElement | null) {
+    if (!el) return;
     try {
-      iframe.contentWindow.scrollBy(0, e.deltaY);
+      const win = (el as any).contentWindow;
+      if (win && typeof win.scrollBy === "function") win.scrollBy(0, e.deltaY);
     } catch (err) {
       // ignore
     }
@@ -39,38 +40,42 @@ export default function TechnicalManualView() {
   return (
     <div className="grid gap-6 md:grid-cols-2">
       <div className="relative h-[72vh] overflow-hidden rounded border">
-        <iframe
-          ref={ref1}
-          src="/manual-1.pdf#toolbar=0&navpanes=0&view=FitH"
-          title="Manual 1"
+        <object
+          ref={ref1 as any}
+          data="/manual-1.pdf#toolbar=0&navpanes=0&view=FitH"
+          type="application/pdf"
           className="h-full w-full"
-          sandbox="allow-same-origin allow-scripts"
-        />
+          aria-label="Manual 1 viewer"
+        >
+          <p className="p-4">PDF viewer not supported. <a href="/manual-1.pdf">Open manual-1.pdf</a></p>
+        </object>
 
         <div
           onContextMenu={(e) => e.preventDefault()}
           onMouseDown={(e) => e.preventDefault()}
           onDoubleClick={(e) => e.preventDefault()}
-          onWheel={(e) => forwardWheel(e, ref1.current)}
+          onWheel={(e) => forwardWheel(e, ref1.current as any)}
           style={{ touchAction: "none" }}
           className="absolute inset-0 z-10 bg-transparent"
         />
       </div>
 
       <div className="relative h-[72vh] overflow-hidden rounded border">
-        <iframe
-          ref={ref2}
-          src="/manual-2.pdf#toolbar=0&navpanes=0&view=FitH"
-          title="Manual 2"
+        <object
+          ref={ref2 as any}
+          data="/manual-2.pdf#toolbar=0&navpanes=0&view=FitH"
+          type="application/pdf"
           className="h-full w-full"
-          sandbox="allow-same-origin allow-scripts"
-        />
+          aria-label="Manual 2 viewer"
+        >
+          <p className="p-4">PDF viewer not supported. <a href="/manual-2.pdf">Open manual-2.pdf</a></p>
+        </object>
 
         <div
           onContextMenu={(e) => e.preventDefault()}
           onMouseDown={(e) => e.preventDefault()}
           onDoubleClick={(e) => e.preventDefault()}
-          onWheel={(e) => forwardWheel(e, ref2.current)}
+          onWheel={(e) => forwardWheel(e, ref2.current as any)}
           style={{ touchAction: "none" }}
           className="absolute inset-0 z-10 bg-transparent"
         />
