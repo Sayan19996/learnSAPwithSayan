@@ -23,6 +23,7 @@ export default function Header({
     { label: "Resources", href: "/resources" },
     { label: "Admin", href: "/admin/login" },
     { label: "About", href: "/about" },
+    { label: "Profile", href: "/profile" },
     { label: "Gen AI App", href: "/genai" },
   ],
   logo = "learnSAPwithSayan.com",
