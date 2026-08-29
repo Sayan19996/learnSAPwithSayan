@@ -27,6 +27,15 @@ export default async function GenAiDetails({ params }: { params: { slug: string 
         </div>
       </div>
 
+      <div className="mt-6 text-sm text-slate-600">
+        <strong>URL:</strong>{' '}
+        {app.url ? (
+          <a className="underline text-sky-600" href={app.url} target="_blank" rel="noreferrer">{app.url}</a>
+        ) : (
+          <span className="text-slate-500">No URL provided</span>
+        )}
+      </div>
+
       {app.longDescription ? (
         <div className="mt-8 rounded-2xl border bg-white p-6 shadow-sm">
           <div className="prose max-w-none text-slate-700">{app.longDescription}</div>

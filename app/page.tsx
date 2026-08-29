@@ -104,7 +104,11 @@ export default async function Home() {
 
         <section className="py-12">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold">Generative AI Apps</h2>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-sky-700">Generative AI</p>
+              <h2 className="mt-2 text-2xl font-bold">AI apps & demos</h2>
+              <p className="mt-1 text-sm text-slate-500">Curated tools and demos you can open and try.</p>
+            </div>
             <Link href="/genai" className="text-sm text-sky-600 underline">See all</Link>
           </div>
 

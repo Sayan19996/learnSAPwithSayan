@@ -17,6 +17,20 @@ export default function GenAiCard({ app }: { app: any }) {
           </div>
           <p className="mt-2 text-sm text-slate-600 line-clamp-3">{app.description}</p>
 
+          {app.url ? (
+            <div className="mt-2 text-xs text-slate-500">
+              <a href={app.url} target="_blank" rel="noreferrer" className="underline">
+                {(() => {
+                  try {
+                    return new URL(app.url).hostname.replace(/^www\./, "");
+                  } catch (e) {
+                    return app.url;
+                  }
+                })()}
+              </a>
+            </div>
+          ) : null}
+
           <div className="mt-4 flex items-center gap-3">
             <a href={app.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-600 to-indigo-600 px-3 py-2 text-sm font-semibold text-white">Open App</a>
             <Link href={`/genai/${app.slug}`} className="text-sm text-slate-600 underline">Details</Link>
