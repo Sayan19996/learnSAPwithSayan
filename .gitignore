@@ -37,6 +37,12 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local sqlite db used for development
+prisma/dev.db
+
+# prisma generated client folder
+node_modules/.prisma
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
