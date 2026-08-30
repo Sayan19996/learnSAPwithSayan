@@ -1,5 +1,6 @@
 import Link from "next/link";
 import BrandLogo from "./BrandLogo";
+import SiteAnalytics from "./SiteAnalytics";
 
 export type FooterColumn = {
   title: string;
@@ -50,7 +51,7 @@ export default function Footer({
     <footer className={`mt-24 ${className}`}>
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="rounded-3xl bg-gradient-to-tl from-slate-900/90 via-indigo-900/70 to-slate-800/80 p-8 shadow-2xl">
-          <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+          <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
             <div className="space-y-4 text-slate-100">
               <Link href="/" className="inline-flex items-center" aria-label="Go to homepage">
                 <BrandLogo className="scale-[0.95] origin-left text-white" wordmark={brand} />
@@ -74,6 +75,10 @@ export default function Footer({
                 </ul>
               </div>
             ))}
+
+            <div className="flex flex-col justify-center">
+              <SiteAnalytics />
+            </div>
           </div>
 
           <div className="mt-10 border-t border-slate-700 pt-6 text-sm text-slate-400">
