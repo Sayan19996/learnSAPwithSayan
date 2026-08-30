@@ -13,6 +13,7 @@ export async function POST(req: Request) {
     const text = `Training application\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nTraining: ${training}\nMessage: ${message || ""}\n`;
 
     // Try to send via SMTP if nodemailer and SMTP config available
+
     let transporter: any = null;
     try {
       const nodemailerModule = await import('nodemailer');

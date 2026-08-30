@@ -28,6 +28,7 @@ const roadmapSteps = [
   "SAP Architect",
 ];
 
+// ...existing code...
 export default async function Home() {
   const latestTutorials = getAllArticles().slice(0, 3).map((article) => ({
     title: article.title,
@@ -53,15 +54,36 @@ export default async function Home() {
           <HeroPremiumWrapper />
         </section>
 
+        {/* SEO-Optimized Value Proposition Section */}
+        <section className="py-12 text-center">
+          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-6xl mb-6">
+            Master <span className="text-sky-600">SAP ABAP, RAP, and BTP</span> with Expert Guidance
+          </h1>
+          <p className="text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed">
+            Stop struggling with complex SAP documentation. Get practical, industry-verified tutorials on 
+            <span className="font-semibold text-slate-900"> Modern ABAP, RESTful ABAP Programming (RAP), SAP Fiori, and BTP Architecture</span>. 
+            Designed for developers who want to transition from SAP Developer to SAP Architect.
+          </p>
+          <div className="mt-8 flex justify-center gap-4">
+            <Link href="/tutorials" className="rounded-full bg-sky-600 px-8 py-3 text-sm font-bold text-white hover:bg-sky-700 transition-all shadow-lg">
+              Start Learning Now
+            </Link>
+            <Link href="/resources" className="rounded-full bg-slate-100 px-8 py-3 text-sm font-bold text-slate-700 hover:bg-slate-200 transition-all">
+              Free Roadmap
+            </Link>
+          </div>
+        </section>
+
         <section className="py-20">
           <div className="text-center mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-600">Choose your path</p>
-            <h2 className="mt-3 text-4xl font-extrabold tracking-tight text-slate-900">What do you want to learn?</h2>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-600">Choose your learning path</p>
+            <h2 className="mt-3 text-4xl font-extrabold tracking-tight text-slate-900">Specialized SAP Training Modules</h2>
             <p className="mt-4 text-slate-500 max-w-2xl mx-auto text-lg">
-              Expert-led training in <span className="text-sky-600 font-semibold">ABAP, RAP, CAP, and BTP</span> to solve your most complex technical issues.
+              Deep dive into the most in-demand SAP skills. From backend logic to cloud integration.
             </p>
             <div className="mt-4 h-1 w-20 bg-sky-500 mx-auto rounded-full" />
           </div>
+// ...existing code...
 
           <div className="grid gap-6 md:grid-cols-3">
             {learningPaths.map((item) => (
