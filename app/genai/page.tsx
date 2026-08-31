@@ -17,6 +17,16 @@ export default async function GenAiIndex() {
           {apps.map((a: any) => (
             <GenAiCard key={a.id} app={a} />
           ))}
+          <GenAiCard 
+            app={{
+              id: 'ai-business-autopsy',
+              name: 'AI Business Autopsy',
+              slug: 'ai-business-autopsy',
+              description: 'Analyze business failures and successes using AI to derive actionable insights.',
+              url: 'https://agent-6a9471e0dcfc9bd7981f9--ai-business-autopsy.netlify.app/',
+              status: 'published'
+            }} 
+          />
         </div>
       </div>
     </div>
