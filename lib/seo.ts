@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 
 import { getArticleBySlug, getAllArticles } from "@/lib/content";
 
-export const siteUrl = "https://www.learnsapwithsayan.com";
+export const siteUrl = "https://learnsapwithsayan.com";
 
-const stripHtml = (value: string) => value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+const stripHtml = (value: string) =>
+  value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 
 /**
  * Generates a high-impact list of keywords based on the article's context.
@@ -12,13 +13,14 @@ const stripHtml = (value: string) => value.replace(/<[^>]*>/g, " ").replace(/\s+
 function generateKeywords(article: any) {
   const baseKeywords = ["SAP", "tutorial", "enterprise software", "SAP Consulting"];
   const categoryKeywords = {
-    "ABAP": ["ABAP Programming", "Modern ABAP", "SAP Backend", "ABAP Cloud"],
-    "Fiori": ["SAP Fiori", "SAPUI5", "Frontend Development", "UX Design"],
-    "RAP": ["SAP RAP", "RESTful ABAP Programming Model", "OData", "SAP Business Application Studio"],
-    "BTP": ["SAP BTP", "Cloud Platform", "SAP Integration", "Cloud Foundry"],
+    ABAP: ["ABAP Programming", "Modern ABAP", "SAP Backend", "ABAP Cloud"],
+    Fiori: ["SAP Fiori", "SAPUI5", "Frontend Development", "UX Design"],
+    RAP: ["SAP RAP", "RESTful ABAP Programming Model", "OData", "SAP Business Application Studio"],
+    BTP: ["SAP BTP", "Cloud Platform", "SAP Integration", "Cloud Foundry"],
   };
 
-  const specific = categoryKeywords[article.category as keyof typeof categoryKeywords] || [];
+  const specific =
+    categoryKeywords[article.category as keyof typeof categoryKeywords] || [];
   return [...baseKeywords, ...specific, article.title, article.category];
 }
 
@@ -30,7 +32,9 @@ export function buildArticleMetadata(slug: string): Metadata | null {
   }
 
   const title = `${article.title} | Expert SAP Guide`;
-  const description = article.description || "Learn practical SAP concepts, implementation patterns, and architecture guidance.";
+  const description =
+    article.description ||
+    "Learn practical SAP concepts, implementation patterns, and architecture guidance.";
   const canonical = `${siteUrl}/tutorials/${article.slug}`;
 
   return {
@@ -50,7 +54,7 @@ export function buildArticleMetadata(slug: string): Metadata | null {
       locale: "en_US",
       images: [
         {
-          url: "/og-default.svg",
+          url: "/og-default.png",
           width: 1200,
           height: 630,
           alt: article.title,
@@ -64,7 +68,7 @@ export function buildArticleMetadata(slug: string): Metadata | null {
       card: "summary_large_image",
       title,
       description,
-      images: ["/og-default.svg"],
+      images: ["/og-default.png"],
     },
     other: {
       "article:published_time": article.publishedAt,
@@ -75,7 +79,6 @@ export function buildArticleMetadata(slug: string): Metadata | null {
   };
 }
 
-// ...existing code...
 export function buildArticleJsonLd(slug: string) {
   const article = getArticleBySlug(slug);
 
@@ -84,7 +87,9 @@ export function buildArticleJsonLd(slug: string) {
   }
 
   const title = `${article.title} — Complete Guide`;
-  const description = stripHtml(article.description || "Learn practical SAP concepts and implementation guidance.");
+  const description = stripHtml(
+    article.description || "Learn practical SAP concepts and implementation guidance."
+  );
   const canonical = `${siteUrl}/tutorials/${article.slug}`;
 
   return [
@@ -103,14 +108,14 @@ export function buildArticleJsonLd(slug: string) {
         name: "Learn SAP with Sayan",
         logo: {
           "@type": "ImageObject",
-          url: `${siteUrl}/og-default.svg`,
+          url: `${siteUrl}/og-default.png`,
         },
       },
       mainEntityOfPage: {
         "@type": "WebPage",
         "@id": canonical,
       },
-      image: `${siteUrl}/og-default.svg`,
+      image: `${siteUrl}/og-default.png`,
       datePublished: article.publishedAt,
       dateModified: article.publishedAt,
       articleSection: article.category,
@@ -149,28 +154,6 @@ export function buildArticleJsonLd(slug: string) {
   ];
 }
 
-export function getAllSitemapUrls() {
-// ...existing code...
-  const articles = getAllArticles();
-  
-  const paths = [
-    { url: `${siteUrl}/`, lastModified: new Date().toISOString() },
-    { url: `${siteUrl}/tutorials`, lastModified: new Date().toISOString() },
-    { url: `${siteUrl}/resources`, lastModified: new Date().toISOString() },
-    { url: `${siteUrl}/genai`, lastModified: new Date().toISOString() },
-  ];
-
-  const articlePaths = articles.map(article => ({
-    url: `${siteUrl}/tutorials/${article.slug}`,
-    lastModified: article.publishedAt,
-  }));
-
-  return [...paths, ...articlePaths];
-}
-
-  };
-}
-
 export function buildBreadcrumbJsonLd(slug: string) {
   const article = getArticleBySlug(slug);
 
@@ -207,22 +190,18 @@ export function buildBreadcrumbJsonLd(slug: string) {
 export function getAllSitemapUrls() {
   const articles = getAllArticles();
 
-  const articleUrls = articles.map((article) => ({
+  const paths = [
+    { url: `${siteUrl}/`, lastModified: new Date().toISOString() },
+    { url: `${siteUrl}/tutorials`, lastModified: new Date().toISOString() },
+    { url: `${siteUrl}/resources`, lastModified: new Date().toISOString() },
+    { url: `${siteUrl}/genai`, lastModified: new Date().toISOString() },
+    { url: `${siteUrl}/terms`, lastModified: new Date().toISOString() },
+  ];
+
+  const articlePaths = articles.map((article) => ({
     url: `${siteUrl}/tutorials/${article.slug}`,
     lastModified: article.publishedAt,
   }));
 
-  const staticUrls = [
-    { url: siteUrl, lastModified: new Date().toISOString() },
-    { url: `${siteUrl}/tutorials`, lastModified: new Date().toISOString() },
-    { url: `${siteUrl}/categories`, lastModified: new Date().toISOString() },
-    { url: `${siteUrl}/roadmap`, lastModified: new Date().toISOString() },
-    { url: `${siteUrl}/resources`, lastModified: new Date().toISOString() },
-    { url: `${siteUrl}/about`, lastModified: new Date().toISOString() },
-    { url: `${siteUrl}/contact`, lastModified: new Date().toISOString() },
-    { url: `${siteUrl}/privacy`, lastModified: new Date().toISOString() },
-    { url: `${siteUrl}/terms`, lastModified: new Date().toISOString() },
-  ];
-
-  return [...staticUrls, ...articleUrls];
+  return [...paths, ...articlePaths];
 }

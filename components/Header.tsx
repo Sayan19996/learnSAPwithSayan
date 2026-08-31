@@ -25,6 +25,7 @@ export default function Header({
     { label: "About", href: "/about" },
     { label: "Profile", href: "/profile" },
     { label: "Gen AI App", href: "/genai" },
+    { label: "AI Business Autopsy", href: "https://agent-6a9471e0dcfc9bd7981f9--ai-business-autopsy.netlify.app/" },
   ],
   logo = "learnSAPwithSayan.com",
   className = "",
